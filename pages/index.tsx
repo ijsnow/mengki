@@ -72,7 +72,8 @@ const Index: FC = () => {
             data
           </li>
           <li>
-            Click to open a file browser and navigate to the messages directory{" "}
+            Click <b>here</b> to open a file browser and navigate to the
+            messages directory{" "}
           </li>
           <li>
             From there open inbox &gt; conversation (name of person(s) and some
