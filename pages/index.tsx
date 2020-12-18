@@ -90,7 +90,7 @@ const Index: FC = () => {
     <>
       <button
         onClick={() => setKind(kind === "bubbles" ? "cloud" : "bubbles")}
-        style={{ padding: 8, fontSize: "2em" }}
+        style={{ padding: 8, fontSize: "2em", float: "right" }}
       >
         {kind === "bubbles" ? "Bubbles" : "Word Cloud"}
       </button>
