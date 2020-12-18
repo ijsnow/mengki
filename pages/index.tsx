@@ -34,7 +34,7 @@ const Index: FC = () => {
       .map(({ content }) => content)
       .filter((v) => !!v)
       .map((mensaje) => nlp(mensaje).text("normal"))
-      .map((mensaje) => nlp(mensaje).terms("normal").json())
+      .map((mensaje) => nlp(mensaje).terms().json())
       .flat()
       .map(({ text }) => text)
       .reduce((words, word) => {
@@ -58,13 +58,26 @@ const Index: FC = () => {
         <input {...getInputProps()} />
         <h1>Facebook messages word cloud</h1>
         <ol>
-          <li>Go to facebook > settings > your facebook information > Download your information</li>
+          <li>
+            Go to facebook &gt; settings &gt; your facebook information &gt;
+            Download your information
+          </li>
           <li>At the top of the page, select JSON from the format dropdown</li>
-          <li>On the right side of the page, click "Deselect all".</li>
-          <li>Select "Messages" and then click "Create file" at the top of the page.</li>
-          <li>Wait for a notification from facebook then download and unzip your data</li>
-          <li>Click to open a file browser and navigate to the messages directory </li>
-          <li>From there open "inbox" > conversation (name of person(s) and some random characters) > message_1.json </li>
+          <li>On the right side of the page, click Deselect all.</li>
+          <li>
+            Select Messages and then click Create file at the top of the page.
+          </li>
+          <li>
+            Wait for a notification from facebook then download and unzip your
+            data
+          </li>
+          <li>
+            Click to open a file browser and navigate to the messages directory{" "}
+          </li>
+          <li>
+            From there open inbox &gt; conversation (name of person(s) and some
+            random characters) &gt; message_1.json{" "}
+          </li>
         </ol>
       </div>
     );
