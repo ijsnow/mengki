@@ -5,7 +5,7 @@ interface Props {
   words: { name: string; value: number }[];
 }
 
-export const WordCloud: FC<Props> = ({ words }) => {
+export const Bubbles: FC<Props> = ({ words }) => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -47,6 +47,16 @@ function draw(words): void {
     .attr("font-family", "sans-serif")
     .attr("text-anchor", "middle");
 
+  const div = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "fixed")
+    .style("padding-left", "16px")
+    .style("top", 0 + "px")
+    .style("left", 0 + "px");
+
   const leaf = svg
     .selectAll("g")
     .data(root.leaves())
@@ -54,10 +64,28 @@ function draw(words): void {
     .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
 
   leaf
-    .append("text")
+    .append("circle")
+    .attr("id", (d) => (d.leafUid = uid("leaf")))
+    .attr("r", (d) => d.r)
     .attr("fill-opacity", 0.7)
     .attr("fill", (d) => color(d.data.name))
-    .attr("font-size", (d) => `${d.r}px`)
+    .on("mouseover", (e, d) => {
+      div.transition().duration(200).style("opacity", 0.9);
+      div.html(`<h1>${d.data.name} - ${d.data.value}</h1>`);
+    })
+    .on("mouseout", () => {
+      div.transition().duration(500).style("opacity", 0);
+    });
+
+  leaf
+    .append("clipPath")
+    .attr("id", (d) => (d.clipUid = uid("clip")))
+    .append("use")
+    .attr("xlink:href", (d) => d.leafUid.href);
+
+  /*
+  leaf
+    .append("text")
     .attr("clip-path", (d) => d.clipUid)
     .selectAll("tspan")
     .data((d) => d.data.name.split(/(?=[A-Z][a-z])|\s+/g))
@@ -65,6 +93,7 @@ function draw(words): void {
     .attr("x", 0)
     .attr("y", (d, i, nodes) => `${i - nodes.length / 2 + 0.8}em`)
     .text((d) => d);
+    */
 
   leaf
     .append("title")

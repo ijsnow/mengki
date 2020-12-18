@@ -3,9 +3,11 @@ import { useDropzone } from "react-dropzone";
 import nlp from "compromise";
 
 import { WordCloud } from "../components/word-cloud";
+import { Bubbles } from "../components/bubbles";
 
 const Index: FC = () => {
   const [data, setData] = useState(null);
+  const [kind, setKind] = useState("cloud");
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -84,7 +86,21 @@ const Index: FC = () => {
     );
   }
 
-  return <WordCloud words={computed} />;
+  return (
+    <>
+      <button
+        onClick={() => setKind(kind === "bubbles" ? "cloud" : "bubbles")}
+        style={{ padding: 8, fontSize: "2em" }}
+      >
+        {kind === "bubbles" ? "Bubbles" : "Word Cloud"}
+      </button>
+      {kind === "bubbles" ? (
+        <Bubbles words={computed} />
+      ) : (
+        <WordCloud words={computed} />
+      )}
+    </>
+  );
 };
 
 function removePunctuation(str: string): string {
